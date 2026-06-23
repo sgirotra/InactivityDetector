@@ -9,20 +9,18 @@ time-open. Watches for two conditions and notifies you to close the app:
    up charges while you work elsewhere).
 
 Windows only (uses win32gui/win32process for foreground window + process
-name, pynput for global input hooks, ctypes MessageBox for popups).
+name, GetLastInputInfo for system idle time, ctypes MessageBox for popups).
 """
+import ctypes
 import threading
 import time
+from ctypes import wintypes
 
 import psutil
 import win32gui
 import win32process
-from pynput import keyboard, mouse
-import ctypes
 
 import config
-
-_last_input_time = time.monotonic()
 
 MB_OK = 0x0
 MB_ICONWARNING = 0x30
@@ -30,9 +28,16 @@ MB_TOPMOST = 0x40000
 MB_SYSTEMMODAL = 0x1000
 
 
-def _on_input(*_args, **_kwargs):
-    global _last_input_time
-    _last_input_time = time.monotonic()
+class _LASTINPUTINFO(ctypes.Structure):
+    _fields_ = [("cbSize", wintypes.UINT), ("dwTime", wintypes.DWORD)]
+
+
+def _seconds_since_last_input():
+    info = _LASTINPUTINFO()
+    info.cbSize = ctypes.sizeof(_LASTINPUTINFO)
+    ctypes.windll.user32.GetLastInputInfo(ctypes.byref(info))
+    millis_idle = ctypes.windll.kernel32.GetTickCount() - info.dwTime
+    return millis_idle / 1000.0
 
 
 def _get_foreground_process_name():
@@ -68,11 +73,6 @@ def _notify(title, message):
 def main():
     targets = {name.lower() for name in config.TARGET_PROCESS_NAMES}
 
-    kb_listener = keyboard.Listener(on_press=_on_input)
-    ms_listener = mouse.Listener(on_move=_on_input, on_click=_on_input, on_scroll=_on_input)
-    kb_listener.start()
-    ms_listener.start()
-
     last_foreground_time = time.monotonic()  # last time target was foreground
     last_idle_notify = 0.0
     last_background_notify = 0.0
@@ -96,7 +96,7 @@ def main():
 
             if is_foreground:
                 last_foreground_time = now
-                idle_for = now - _last_input_time
+                idle_for = _seconds_since_last_input()
                 print(
                     f"\r[status] foreground={foreground_name} "
                     f"idle={idle_for:5.1f}s / {config.IDLE_THRESHOLD_SECONDS}s   ",
@@ -129,9 +129,6 @@ def main():
             time.sleep(config.POLL_INTERVAL_SECONDS)
     except KeyboardInterrupt:
         pass
-    finally:
-        kb_listener.stop()
-        ms_listener.stop()
 
 
 if __name__ == "__main__":
