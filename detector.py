@@ -9,21 +9,25 @@ time-open. Watches for two conditions and notifies you to close the app:
    up charges while you work elsewhere).
 
 Windows only (uses win32gui/win32process for foreground window + process
-name, pynput for global input hooks, win10toast for notifications).
+name, pynput for global input hooks, ctypes MessageBox for popups).
 """
+import threading
 import time
 
 import psutil
 import win32gui
 import win32process
 from pynput import keyboard, mouse
-from win10toast_click import ToastNotifier
+import ctypes
 
 import config
 
-toaster = ToastNotifier()
-
 _last_input_time = time.monotonic()
+
+MB_OK = 0x0
+MB_ICONWARNING = 0x30
+MB_TOPMOST = 0x40000
+MB_SYSTEMMODAL = 0x1000
 
 
 def _on_input(*_args, **_kwargs):
@@ -51,8 +55,14 @@ def _is_target_running():
 
 
 def _notify(title, message):
-    toaster.show_toast(title, message, duration=8, threaded=True)
     print(f"[NOTIFY] {title}: {message}")
+    # Run in a separate thread so the blocking "OK" popup doesn't pause
+    # the polling/counter loop.
+    threading.Thread(
+        target=ctypes.windll.user32.MessageBoxW,
+        args=(None, message, title, MB_OK | MB_ICONWARNING | MB_TOPMOST | MB_SYSTEMMODAL),
+        daemon=True,
+    ).start()
 
 
 def main():
@@ -77,6 +87,7 @@ def main():
 
             if not _is_target_running():
                 last_foreground_time = now  # reset so it doesn't fire stale alerts
+                print("\r[status] target app not running" + " " * 20, end="", flush=True)
                 time.sleep(config.POLL_INTERVAL_SECONDS)
                 continue
 
@@ -86,6 +97,11 @@ def main():
             if is_foreground:
                 last_foreground_time = now
                 idle_for = now - _last_input_time
+                print(
+                    f"\r[status] foreground={foreground_name} "
+                    f"idle={idle_for:5.1f}s / {config.IDLE_THRESHOLD_SECONDS}s   ",
+                    end="", flush=True,
+                )
                 if idle_for >= config.IDLE_THRESHOLD_SECONDS:
                     if now - last_idle_notify >= config.NOTIFICATION_COOLDOWN_SECONDS:
                         _notify(
@@ -96,6 +112,11 @@ def main():
                         last_idle_notify = now
             else:
                 background_for = now - last_foreground_time
+                print(
+                    f"\r[status] backgrounded={background_for:5.1f}s / "
+                    f"{config.BACKGROUND_THRESHOLD_SECONDS}s   ",
+                    end="", flush=True,
+                )
                 if background_for >= config.BACKGROUND_THRESHOLD_SECONDS:
                     if now - last_background_notify >= config.NOTIFICATION_COOLDOWN_SECONDS:
                         _notify(
