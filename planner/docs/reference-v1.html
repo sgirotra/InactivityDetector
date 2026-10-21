@@ -1,0 +1,995 @@
+<title>Fall '26 Critical Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F5F2EA;
+    --surface:#FFFFFF;
+    --surface-2:#FBF9F4;
+    --ink:#12212B;
+    --navy:#003057;
+    --gold:#B3A369;
+    --gold-ink:#7E7038;
+    --line:#E2DBCB;
+    --line-soft:#EDE7DA;
+    --muted:#65747F;
+    --brick:#A5382A;
+    --brick-bg:#F6E5E1;
+    --amber:#9C6B12;
+    --amber-bg:#F8EEDA;
+    --moss:#2E6B51;
+    --moss-bg:#E4EFE8;
+    --evt-bg:#E9F0F7;
+    --evt-bd:#003057;
+    --evt-ink:#12212B;
+    --shadow:0 1px 2px rgba(18,33,43,.06), 0 8px 24px -18px rgba(18,33,43,.35);
+    --r:10px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#0C161D;
+      --surface:#121F28;
+      --surface-2:#16242E;
+      --ink:#E9E4D8;
+      --navy:#9BC4E8;
+      --gold:#C9B983;
+      --gold-ink:#C9B983;
+      --line:#26363F;
+      --line-soft:#1D2C35;
+      --muted:#8C9AA4;
+      --brick:#E58973;
+      --brick-bg:#31201D;
+      --amber:#D9A94A;
+      --amber-bg:#2C2417;
+      --moss:#6FBE92;
+      --moss-bg:#16291F;
+      --evt-bg:#16293A;
+      --evt-bd:#7FB3DE;
+      --evt-ink:#E9E4D8;
+      --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0C161D;
+    --surface:#121F28;
+    --surface-2:#16242E;
+    --ink:#E9E4D8;
+    --navy:#9BC4E8;
+    --gold:#C9B983;
+    --gold-ink:#C9B983;
+    --line:#26363F;
+    --line-soft:#1D2C35;
+    --muted:#8C9AA4;
+    --brick:#E58973;
+    --brick-bg:#31201D;
+    --amber:#D9A94A;
+    --amber-bg:#2C2417;
+    --moss:#6FBE92;
+    --moss-bg:#16291F;
+    --evt-bg:#16293A;
+    --evt-bd:#7FB3DE;
+    --evt-ink:#E9E4D8;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -18px rgba(0,0,0,.8);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Archivo","Helvetica Neue",Arial,sans-serif;
+    font-size:15px;
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 72px;display:flex;flex-direction:column;gap:26px}
+
+  /* masthead */
+  .mast{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;
+        padding-bottom:16px;border-bottom:2px solid var(--ink)}
+  .mast h1{margin:0;font-size:clamp(28px,4.4vw,42px);font-weight:700;letter-spacing:-.025em;text-wrap:balance;line-height:1.02}
+  .mast .sub{margin:6px 0 0;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;
+             letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+  .counters{display:flex;gap:8px;flex-wrap:wrap}
+  .counter{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:8px 12px;min-width:82px}
+  .counter b{display:block;font-family:"IBM Plex Mono",monospace;font-size:22px;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+  .counter span{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .counter.hot b{color:var(--brick)}
+  .counter.warm b{color:var(--amber)}
+  .donetoggle{font:inherit;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;
+              text-transform:uppercase;background:none;border:none;border-bottom:1px solid var(--line);
+              color:var(--muted);cursor:pointer;padding:2px 0;align-self:flex-end}
+  .donetoggle:hover{color:var(--ink);border-bottom-color:var(--ink)}
+  .donetoggle[hidden]{display:none!important}
+
+  h2.sec{margin:0 0 12px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+         display:flex;align-items:center;gap:10px}
+  h2.sec::after{content:"";flex:1;height:1px;background:var(--line)}
+  h2.sec .n{font-family:"IBM Plex Mono",monospace;color:var(--ink);letter-spacing:.04em}
+
+  /* generic row */
+  .row{display:flex;gap:11px;align-items:flex-start;padding:9px 12px;border-radius:8px;background:var(--surface);
+       border:1px solid var(--line-soft)}
+  .row + .row{margin-top:6px}
+  .rows{display:flex;flex-direction:column}
+  .cb{appearance:none;flex:0 0 auto;width:17px;height:17px;margin-top:2px;border:1.5px solid var(--muted);border-radius:4px;
+      background:transparent;cursor:pointer;position:relative;transition:background .12s,border-color .12s}
+  .cb:hover{border-color:var(--ink)}
+  .cb:checked{background:var(--moss);border-color:var(--moss)}
+  .cb:checked::after{content:"";position:absolute;left:5px;top:1px;width:4px;height:9px;border:solid #fff;
+                     border-width:0 2px 2px 0;transform:rotate(42deg)}
+  .cb:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .body{flex:1;min-width:0}
+  .ttl{font-weight:500;overflow-wrap:anywhere}
+  .note{font-size:12.5px;color:var(--muted);margin-top:1px}
+  .done .ttl{text-decoration:line-through;color:var(--muted);text-decoration-thickness:1px}
+  .meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:4px}
+
+  .chip{font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:500;letter-spacing:.05em;
+        padding:2px 6px;border-radius:4px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);
+        white-space:nowrap;text-transform:uppercase}
+  .chip.due-past{background:var(--brick-bg);border-color:transparent;color:var(--brick)}
+  .chip.due-today{background:var(--amber-bg);border-color:transparent;color:var(--amber)}
+  .chip.due-soon{background:var(--surface-2);border-color:var(--gold);color:var(--gold-ink)}
+  .chip.tag{background:transparent;border-color:var(--line)}
+  .chip.clash{background:var(--brick-bg);border-color:transparent;color:var(--brick);text-transform:none;letter-spacing:0}
+
+  /* slipped band */
+  .slip{border:1px solid var(--brick);border-left-width:4px;background:var(--surface);border-radius:var(--r);padding:16px 18px}
+  .slip h3{margin:0 0 4px;font-size:16px;font-weight:600;color:var(--brick)}
+  .slip p{margin:0 0 12px;font-size:13px;color:var(--muted)}
+
+  /* focus card */
+  .focus{margin-top:18px;background:var(--surface);border:1px solid var(--gold);border-left-width:4px;
+         border-radius:var(--r);padding:14px 16px}
+  .focus h3{margin:0;font-size:15px;font-weight:600}
+  .focus .fsub{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+               color:var(--muted);margin-top:3px}
+  .focus .rows{margin-top:10px}
+  .focus .row{border:none;background:transparent;padding:7px 2px}
+  .focus .row + .row{margin-top:0;border-top:1px solid var(--line-soft)}
+
+  /* today + agenda */
+  .split{display:grid;grid-template-columns:1.35fr 1fr;gap:22px;align-items:start}
+  @media (max-width:820px){.split{grid-template-columns:1fr}}
+
+  .agenda{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+  .agenda-hd{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+             background:var(--surface-2)}
+  .agenda-hd .d{font-size:17px;font-weight:600}
+  .agenda-hd .w{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .allday{display:flex;flex-wrap:wrap;gap:6px;padding:10px 16px;border-bottom:1px solid var(--line-soft);
+          background:var(--surface-2)}
+  .adchip{font-size:12px;padding:3px 9px;border-radius:20px;background:var(--evt-bg);color:var(--evt-ink);
+          border:1px solid var(--evt-bd)}
+  .adchip.is-done{opacity:.45;text-decoration:line-through}
+  .calscroll{max-height:460px;overflow-y:auto;overscroll-behavior:contain}
+  .cal{position:relative;padding:0 14px 10px 60px}
+  .hr{position:absolute;left:60px;right:14px;border-top:1px solid var(--line-soft)}
+  .hr.solid{border-top-color:var(--line)}
+  .hrlab{position:absolute;left:0;width:48px;text-align:right;font-family:"IBM Plex Mono",monospace;
+         font-size:10.5px;color:var(--muted);margin-top:-7px;font-variant-numeric:tabular-nums}
+  .ev{position:absolute;border-radius:6px;padding:4px 8px;overflow:hidden;font-size:12.5px;line-height:1.25;
+      border:1px solid var(--line)}
+  .ev.cls{background:var(--surface-2);color:var(--muted)}
+  .ev.evt{background:var(--evt-bg);color:var(--evt-ink);border-color:var(--evt-bd);border-left-width:3px}
+  .ev.is-done{opacity:.45}
+  .ev.is-done .en{text-decoration:line-through}
+  .ev .en{font-weight:500;display:block}
+  .ev .et{font-family:"IBM Plex Mono",monospace;font-size:10px;opacity:.75;display:block}
+  .ev.short{padding:1px 8px;font-size:11.5px}
+  .ev.short .et{display:inline;margin-left:5px}
+  .ev.short .en{display:inline}
+  .nowline{position:absolute;left:60px;right:14px;border-top:2px solid var(--brick);z-index:4}
+  .nowline::before{content:"";position:absolute;left:-5px;top:-5px;width:8px;height:8px;border-radius:50%;
+                   background:var(--brick)}
+  .calnote{padding:10px 16px;font-size:12.5px;color:var(--brick);border-top:1px solid var(--line-soft)}
+  .calempty{padding:22px 16px;font-size:13.5px;color:var(--muted)}
+
+  .rangetabs{display:flex;gap:2px;background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:2px}
+  .rangetabs button{font:inherit;font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;
+                    text-transform:uppercase;padding:4px 10px;border:none;border-radius:5px;background:transparent;
+                    color:var(--muted);cursor:pointer}
+  .rangetabs button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+  /* week strip */
+  .week{display:grid;grid-template-columns:repeat(7,minmax(148px,1fr));gap:10px;overflow-x:auto;padding-bottom:6px}
+  .week.month{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));overflow-x:visible}
+  .day{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r);padding:10px 11px;display:flex;
+       flex-direction:column;gap:7px;min-height:120px}
+  .day.is-today{border-color:var(--gold);border-width:2px;padding:9px 10px}
+  .day.wknd{background:var(--surface-2)}
+  .day .hd{display:flex;justify-content:space-between;align-items:baseline;gap:6px;padding-bottom:6px;border-bottom:1px solid var(--line-soft)}
+  .day .dow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .day .dnum{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+  .day.is-today .dnum{color:var(--gold-ink)}
+  .mini{font-size:12.3px;line-height:1.3;display:flex;gap:6px;align-items:flex-start}
+  .mini .mt{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);flex:0 0 auto;padding-top:1.5px;
+            font-variant-numeric:tabular-nums}
+  .mini.class-mini{color:var(--muted)}
+  .mini.evt-mini{font-weight:500}
+  .mini.done-mini .mx{text-decoration:line-through;opacity:.55}
+  .day .clash-line{font-size:11px;color:var(--brick);border-top:1px dashed var(--brick);padding-top:5px;margin-top:auto;line-height:1.3}
+
+  /* coursework */
+  .courses{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+  .course{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+  .course .ch{padding:11px 14px;border-bottom:1px solid var(--line-soft);display:flex;justify-content:space-between;
+              align-items:baseline;gap:8px;background:var(--surface-2)}
+  .course .code{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:13.5px;letter-spacing:.01em}
+  .course .cr{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted)}
+  .course .cbody{padding:8px 10px;display:flex;flex-direction:column;gap:4px}
+  .course .row{border:none;background:transparent;padding:6px 4px}
+  .course .row + .row{margin-top:0;border-top:1px solid var(--line-soft)}
+
+  /* lists */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+  @media (max-width:820px){.cols{grid-template-columns:1fr}}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:6px 10px 10px}
+  .panel .row{border:none;background:transparent;padding:7px 4px}
+  .panel .row + .row{margin-top:0;border-top:1px solid var(--line-soft)}
+  .grouphd{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+           color:var(--muted);padding:12px 4px 4px}
+
+  .adder{display:flex;gap:8px;padding:10px 4px 4px;border-top:1px solid var(--line-soft);margin-top:6px}
+  .adder input{flex:1;min-width:0;font:inherit;font-size:13.5px;padding:7px 9px;border:1px solid var(--line);
+               border-radius:7px;background:var(--paper);color:var(--ink)}
+  .adder input:focus{outline:2px solid var(--gold);outline-offset:-1px;border-color:transparent}
+  .adder button{font:inherit;font-size:13px;font-weight:600;padding:7px 14px;border:1px solid var(--ink);border-radius:7px;
+                background:var(--ink);color:var(--paper);cursor:pointer}
+  .adder button:hover{opacity:.86}
+
+  .foot{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;line-height:1.6}
+  .foot code{font-family:"IBM Plex Mono",monospace;font-size:11.5px}
+  .status{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  .empty{font-size:13px;color:var(--muted);padding:10px 4px}
+  .row{transition:opacity .22s ease, transform .22s ease}
+  .row.leaving{opacity:0;transform:translateX(10px)}
+  .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:50;display:flex;gap:14px;align-items:center;
+         background:var(--ink);color:var(--paper);font-size:13px;padding:9px 14px;border-radius:9px;box-shadow:var(--shadow);
+         max-width:calc(100vw - 32px)}
+  .toast[hidden]{display:none}
+  .toast span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:56vw}
+  .toast button{font:inherit;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+                background:transparent;color:var(--gold);border:none;cursor:pointer;padding:2px 0}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="mast">
+    <div>
+      <h1>Fall&nbsp;'26 Critical Path</h1>
+      <p class="sub" id="datestamp">&nbsp;</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
+      <div class="counters" id="counters"></div>
+      <button type="button" class="donetoggle" id="donetoggle" hidden></button>
+    </div>
+  </header>
+
+  <section id="slipped-wrap"></section>
+
+  <section class="split">
+    <div>
+      <h2 class="sec">Today</h2>
+      <div class="agenda" id="agenda"></div>
+      <div id="focus"></div>
+    </div>
+    <div>
+      <h2 class="sec">Due next <span class="n" id="duecount"></span></h2>
+      <div class="rows" id="duenext"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec"><span id="weekhd">Next seven days</span>
+      <span class="rangetabs" id="rangetabs">
+        <button type="button" data-range="week" aria-pressed="true">7 days</button>
+        <button type="button" data-range="month" aria-pressed="false">30 days</button>
+      </span>
+    </h2>
+    <div class="week" id="week"></div>
+  </section>
+
+  <section>
+    <h2 class="sec">Coursework</h2>
+    <div class="courses" id="courses"></div>
+  </section>
+
+  <section class="cols">
+    <div>
+      <h2 class="sec">Recruiting &amp; side <span class="n" id="sidecount"></span></h2>
+      <div class="panel" id="side"></div>
+    </div>
+    <div>
+      <h2 class="sec">Clubs &amp; open questions</h2>
+      <div class="panel" id="clubs"></div>
+    </div>
+  </section>
+
+  <p class="foot">
+    Fixed blocks: PHYS 2211 M/W 9:30, ISYE 3030 M/W 11:00, MATH 2603 studio M/W 1:00 + lecture T/Th 3:30,
+    Startup Lab M/W 2:00, PHYS lab Tue 12:30, VIP Wed 3:30. UCC Mondays 7:00&ndash;8:30p, Investments Committee
+    Tuesdays 6:30&ndash;7:30p. All times Eastern. Anything with a date that passes stays on the board and turns
+    into a slipped item until you tick it.
+    <br><span class="toast" id="toast" role="status" hidden><span id="toastmsg"></span><button type="button" id="toastundo">Undo</button></span><span class="status" id="status">Ticks saved on this device</span>
+  </p>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- data ---------- */
+var CLASSES = [
+  {d:1,s:"09:30",e:"10:45",n:"PHYS 2211",k:"Lecture"},
+  {d:1,s:"11:00",e:"12:15",n:"ISYE 3030",k:"Lecture"},
+  {d:1,s:"13:00",e:"13:50",n:"MATH 2603",k:"Studio"},
+  {d:1,s:"14:00",e:"15:15",n:"Startup Lab",k:"CS 2701"},
+  {d:1,s:"19:00",e:"20:30",n:"UCC",k:"Weekly"},
+  {d:2,s:"12:30",e:"15:15",n:"PHYS 2211 Lab",k:"Lab"},
+  {d:2,s:"15:30",e:"16:45",n:"MATH 2603",k:"Lecture"},
+  {d:2,s:"18:30",e:"19:30",n:"Investments Committee",k:"Weekly"},
+  {d:3,s:"09:30",e:"10:45",n:"PHYS 2211",k:"Lecture"},
+  {d:3,s:"11:00",e:"12:15",n:"ISYE 3030",k:"Lecture"},
+  {d:3,s:"13:00",e:"13:50",n:"MATH 2603",k:"Studio"},
+  {d:3,s:"14:00",e:"15:15",n:"Startup Lab",k:"CS 2701"},
+  {d:3,s:"15:30",e:"16:15",n:"VIP",k:"Research"},
+  {d:4,s:"15:30",e:"16:45",n:"MATH 2603",k:"Lecture"},
+  {d:5,s:"12:00",e:"13:00",n:"Home Depot weekly",k:"Product@GT"}
+];
+
+var EVENTS = [
+  {id:"e1018a",dt:"2026-10-18",s:"11:00",e:"12:00",t:"ISYE 3030 project call",g:"ISYE 3030",note:"End time assumed · abstract due 10/23"},
+  {id:"e1020b",dt:"2026-10-20",s:"18:30",e:"19:30",t:"Home Depot meeting",g:"Product@GT",note:"End time assumed"},
+  {id:"x1026",dt:"2026-10-26",s:"18:30",e:"19:45",t:"PHYS 2211 Test 2",g:"Exam"},
+  {id:"x1110",dt:"2026-11-10",s:"15:30",e:"16:45",t:"MATH 2603 Midterm 2",g:"Exam",note:"Regular lecture period"},
+  {id:"x1123",dt:"2026-11-23",s:"18:30",e:"19:45",t:"PHYS 2211 Test 3",g:"Exam",note:"Monday of Thanksgiving week"},
+  {id:"x1202",dt:"2026-12-02",s:"11:00",e:"12:15",t:"ISYE 3030 Exam II",g:"Exam",note:"In class · two double-sided equation sheets"},
+  {id:"x1211",dt:"2026-12-11",s:"18:00",e:"20:50",t:"PHYS 2211 Final",g:"Exam",note:"Common exam, location TBA"},
+  {id:"x1215",dt:"2026-12-15",s:"14:40",e:"17:30",t:"MATH 2603 Final",g:"Exam",note:"Cumulative, location TBA"}
+];
+
+var FOCUS = {
+  dt:"2026-10-21",
+  items:[
+    {id:"n39",t:"Finish the Home Depot slides"},
+    {id:"n40",t:"Go to classes",note:"PHYS 9:30 · ISYE 11 · MATH 1 · Startup Lab 2 · VIP 3:30"},
+    {id:"n41",t:"Chest day at the gym"},
+    {id:"n42",t:"Do math",note:"10/15 worksheets, 10/20 lecture, quiz answers"},
+    {id:"n43",t:"Study a little physics",note:"Test 2 Mon"},
+    {id:"n44",t:"3030 project abstract work",note:"Due Fri"},
+    {id:"n45",t:"Prep for the VIP presentation"}
+  ]
+};
+
+var SKIPS = {
+  "2026-10-09":["Home Depot weekly"]
+};
+
+var HOLIDAYS = {
+  "2026-10-05":"No school — classes cancelled",
+  "2026-10-06":"No school — classes cancelled"
+};
+
+var CLASHES = {
+  "2026-10-20":"Home Depot at 6:30 lands right on Investments Committee (6:30\u20137:30).",
+  "2026-10-09":"PHYS HW 7 due. Capital One offer call at 11, Home Depot 2\u20133, Ford kickoff 4:30\u20135:30, Phong at 6.",
+  "2026-10-12":"ISYE Exam I 11\u201312:15, then the Adele coffee chat at 1 lands on MATH studio (1\u20131:50). Startup Lab 2\u20133:15, Farhan at 5, UCC at 7.",
+  "2026-10-13":"PHYS lab 12:30\u20133:15, Jesse 1:1 at 3 overlaps the end of lab and the start of MATH (3:30), Accenture Round 1 5\u20136, IC 6:30. Morning is free for case prep.",
+  "2026-10-14":"Math quiz in studio at 1, Startup Lab 2, VIP 3:30, EYP prep session 6–7. Superday prep and Home Depot research both due tonight.",
+  "2026-10-15":"EYP superday from 9am, then the EY Technology Consulting session at noon. If the superday runs past noon, that session is the one to drop. MATH at 3:30.",
+  "2026-10-16":"McKinsey office visit 10\u201312 on Ponce, the morning after the EYP superday.",
+  "2026-10-05":"EYP interview at 12 (11am CT), Kelsey 1:1 at 1, UCC weekly at 7. Only 15 minutes between the two EYP calls.",
+  "2026-10-02":"Startup Report 1 due, plus Home Depot weekly 12–1, Clayton 2:30 and Oligo Space 5:30. Get the report in before noon.",
+  "2026-10-01":"Bain round 2 at 10:15, then MATH at 3:30. The morning is otherwise clear.",
+  "2026-09-24":"Bain rounds 1–2, then the Accenture screen at 2:45, then MATH at 3:30. Fifteen minutes between the screen and class.",
+  "2026-09-21":"The Luke case at 2:30 lands inside Startup Lab (2:00–3:15), and the workshop at 5 runs into UCC at 7.",
+  "2026-09-29":"MATH midterm at 3:30, then Intro to Projects 6:30–8 sits right on top of Investments Committee.",
+  "2026-09-23":"Four things stack up: Quiz 2 at 1, VIP test at 3:30, the last Bloomberg workshop at 5, then the Hazel case at 7 and Swayam at 8:30.",
+  "2026-09-30":"Bain coffee chat 1:30–2:30 at Refuge Coffee runs into Startup Lab (2–3:15), and VIP is at 3:30. Nico still untimed.",
+  "2026-09-28":"ISYE HW 2 due, and PHYS Test 1 runs 6:30–7:45 straight through the start of UCC at 7.",
+  "2026-10-26":"PHYS Test 2 runs 6:30–7:45, straight through the start of UCC at 7.",
+  "2026-11-23":"PHYS Test 3 runs 6:30–7:45, straight through the start of UCC at 7.",
+  "2026-12-11":"PHYS final 6–8:50 the same day the ISYE 3030 project report is due.",
+  "2026-09-22":"Workshop ends 6:30 as Investments Committee starts, and the Nico case at 7 runs over IC's back half.",
+  "2026-09-15":"Trading room 6:30–8 runs straight over Investments Committee."
+};
+
+var COURSES = [
+  {code:"PHYS 2211", cr:4, items:[
+    {id:"p22",t:"Catch up on the 10/21 physics lecture"},
+    {id:"p23",t:"Study for PHYS Test 2",due:"2026-10-26",note:"Mon 6:30pm"}
+  ]},
+  {code:"MATH 2603 · Discrete", cr:4, items:[
+    {id:"d19",t:"Finish the 10/15 worksheets"},
+    {id:"d20",t:"Catch up on the 10/20 math lecture"},
+    {id:"d21",t:"Review the last math quiz answers"}
+  ]},
+  {code:"ISYE 3030", cr:3, items:[
+    {id:"i3",t:"Project abstract",due:"2026-10-23"},
+    {id:"i6",t:"3030 homework",due:"2026-10-23"},
+    {id:"i4",t:"Project report",due:"2026-12-11",note:"Replaces the final exam"}
+  ]},
+  {code:"Startup Lab · CS 2701", cr:3, items:[
+    {id:"s2",t:"Review the content from the missed class",note:"You said 10/13, but Startup Lab meets Mon/Wed, so this is likely the 10/12 class"}
+  ]}
+];
+
+var SIDE = [
+  {g:"Applications", items:[
+    {id:"a11",t:"Keep an eye on recruiter emails"},
+    {id:"a2",t:"Citadel SPC, P72 SPC"}
+  ]},
+  {g:"Interview prep", items:[
+    {id:"b6",t:"Get introduced to Sushanth's MBB buddy"},
+    {id:"b19",t:"Review Akash's casing notes"}
+  ]},
+  {g:"Follow-ups", items:[
+    {id:"c1",t:"Send an email to Clayton"},
+    {id:"c2",t:"Donna"},
+    {id:"c3",t:"Schneider",note:"After the Shonodeep UCC run-through"},
+    {id:"c15",t:"Reply to Helen with availability for the week of 10/29",note:"Schneider · Shonodeep call pushed to late October"},
+    {id:"c4",t:"Simmon"},
+    {id:"c7",t:"Reach out to Subash's dad"}
+  ]},
+  {g:"Housekeeping", items:[
+    {id:"h1",t:"Add ERB to LinkedIn",note:"Resume done"},
+    {id:"h2",t:"Betterment investments"},
+    {id:"h3",t:"Read Executive Presence"},
+    {id:"h4",t:"Workout"},
+    {id:"h6",t:"Set up Muse"}
+  ]}
+];
+
+var CLUBS = [
+  {g:"UCC", items:[
+    {id:"u1",t:"Project sourcing"},
+    {id:"u2",t:"SBC folk — POC with Hawks"},
+    {id:"u3",t:"Thrive Americans"},
+    {id:"u5",t:"Reach out to the pro bono clients to get engagements moving"},
+    {id:"u4",t:"Real estate networking event collab",note:"Partner org and date still TBD"},
+    {id:"u8",t:"Assign the pro bono projects to folks"},
+    {id:"u9",t:"Keep an eye on the Ford group",note:"Clayton, Ryan, Kate"}
+  ]},
+  {g:"Investments Committee", items:[
+    {id:"k7",t:"Review the IC material from 9/8",due:"2026-09-15",note:"Before the next IC meeting"},
+    {id:"k1",t:"IC mentorship — check Canvas"}
+  ]},
+  {g:"Product@GT", items:[
+    {id:"pg1",t:"Home Depot project — confirm schedule and deliverables",note:"Product Fellow"},
+    {id:"pg3",t:"Look for Home Depot response from Girija"},
+    {id:"pg4",t:"Make slides for thought flow to prototype drawups"}
+  ]},
+  {g:"Check on", items:[
+    {id:"k2",t:"IISE — look for more events"},
+    {id:"k5",t:"Trading Club — status?"},
+    {id:"k6",t:"GTVC — status?"}
+  ]}
+];
+
+/* ---------- state ---------- */
+var state = {checks:{}, custom:[]};
+var showDone = false;
+var dbRef = null;
+
+function isDone(id){ return !!state.checks[id]; }
+function visible(items){ return showDone ? items : items.filter(function(i){ return !isDone(i.id); }); }
+var LS_KEY = "cp.state.v1", toastTimer = null, lastTicked = null;
+function toggle(id, on, label){
+  if(on){ state.checks[id] = new Date().toISOString(); }
+  else { delete state.checks[id]; }
+  save();
+  render();
+  if(on && label){ showToast(id, label); } else { hideToast(); }
+}
+function showToast(id, label){
+  lastTicked = id;
+  document.getElementById("toastmsg").textContent = "Done \u00b7 " + label;
+  document.getElementById("toast").hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(hideToast, 5000);
+}
+function hideToast(){ clearTimeout(toastTimer); var t = document.getElementById("toast"); if(t) t.hidden = true; }
+function saveLocal(){
+  try { localStorage.setItem(LS_KEY, JSON.stringify({checks:state.checks, custom:state.custom})); } catch(e){}
+}
+function loadLocal(){
+  try {
+    var d = JSON.parse(localStorage.getItem(LS_KEY) || "null");
+    if(d && d.checks && typeof d.checks === "object") state.checks = d.checks;
+    if(d && Array.isArray(d.custom)) state.custom = d.custom.filter(function(i){ return i && i.id && i.t; });
+  } catch(e){}
+}
+function save(){
+  saveLocal();
+  if(!dbRef) return;
+  dbRef.set({checks:state.checks, custom:state.custom}).catch(function(err){
+    setStatus("Saved on this device only (" + (err && err.code ? err.code : "error") + ")");
+  });
+}
+function setStatus(msg){ var el = document.getElementById("status"); if(el) el.textContent = msg; }
+
+/* ---------- date helpers ---------- */
+var DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+var MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+function midnight(d){ return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+function today(){ return midnight(new Date()); }
+function parseISO(s){ var p = s.split("-"); return new Date(+p[0], +p[1]-1, +p[2]); }
+function iso(d){
+  var m = d.getMonth()+1, day = d.getDate();
+  return d.getFullYear() + "-" + (m<10?"0":"") + m + "-" + (day<10?"0":"") + day;
+}
+function addDays(d,n){ var x = new Date(d); x.setDate(x.getDate()+n); return x; }
+function dayDiff(a,b){ return Math.round((midnight(a) - midnight(b)) / 86400000); }
+function fmtTime(t){
+  if(!t) return "";
+  var p = t.split(":"), h = +p[0], m = p[1];
+  var ap = h >= 12 ? "p" : "a";
+  h = h % 12; if(h === 0) h = 12;
+  return h + (m === "00" ? "" : ":" + m) + ap;
+}
+function dueChip(dueISO){
+  if(!dueISO) return null;
+  var n = dayDiff(parseISO(dueISO), today());
+  var lbl = MON[parseISO(dueISO).getMonth()] + " " + parseISO(dueISO).getDate();
+  var cls = "chip";
+  if(n < 0){ cls += " due-past"; lbl = lbl + " · " + Math.abs(n) + "d late"; }
+  else if(n === 0){ cls += " due-today"; lbl = "Due today"; }
+  else if(n <= 4){ cls += " due-soon"; lbl = lbl + " · " + n + "d"; }
+  return {cls:cls, lbl:lbl};
+}
+
+/* ---------- dom helpers ---------- */
+function el(tag, cls, txt){
+  var e = document.createElement(tag);
+  if(cls) e.className = cls;
+  if(txt != null) e.textContent = txt;
+  return e;
+}
+function taskRow(item, opts){
+  opts = opts || {};
+  var done = isDone(item.id);
+  var r = el("div", "row" + (done ? " done" : ""));
+  var cb = el("input", "cb");
+  cb.type = "checkbox"; cb.checked = done;
+  cb.setAttribute("aria-label", item.t);
+  cb.addEventListener("change", function(){
+    if(cb.checked && !showDone){
+      r.classList.add("leaving");
+      setTimeout(function(){ toggle(item.id, true, item.t); }, 220);
+    } else {
+      toggle(item.id, cb.checked, cb.checked ? item.t : null);
+    }
+  });
+  r.appendChild(cb);
+  var b = el("div", "body");
+  b.appendChild(el("div", "ttl", item.t));
+  if(item.note) b.appendChild(el("div", "note", item.note));
+  var chips = [];
+  if(opts.group) chips.push({cls:"chip tag", lbl:opts.group});
+  var dc = done ? null : dueChip(item.due);
+  if(dc) chips.push(dc);
+  if(chips.length){
+    var m = el("div", "meta");
+    chips.forEach(function(c){ m.appendChild(el("span", c.cls, c.lbl)); });
+    b.appendChild(m);
+  }
+  r.appendChild(b);
+  return r;
+}
+
+/* ---------- collectors ---------- */
+function allTasks(){
+  var out = [];
+  COURSES.forEach(function(c){ c.items.forEach(function(i){ out.push({id:i.id,t:i.t,due:i.due,note:i.note,group:c.code}); }); });
+  SIDE.forEach(function(g){ g.items.forEach(function(i){ out.push({id:i.id,t:i.t,due:i.due,note:i.note,group:g.g}); }); });
+  CLUBS.forEach(function(g){ g.items.forEach(function(i){ out.push({id:i.id,t:i.t,due:i.due,note:i.note,group:g.g}); }); });
+  state.custom.forEach(function(i){ out.push({id:i.id,t:i.t,due:i.due,note:i.note,group:"Added"}); });
+  return out;
+}
+function eventsOn(dISO){
+  return EVENTS.filter(function(e){ return e.dt === dISO; })
+    .sort(function(a,b){ return (a.s||"99").localeCompare(b.s||"99"); });
+}
+function classesOn(date){
+  var off = !!HOLIDAYS[iso(date)];
+  return CLASSES.filter(function(c){
+      if(c.d !== date.getDay()) return false;
+      if(off && c.k !== "Weekly") return false;   // academic blocks drop on days off
+      if((SKIPS[iso(date)] || []).indexOf(c.n) !== -1) return false;   // one-off moved/cancelled blocks
+      return true;
+    })
+    .sort(function(a,b){ return a.s.localeCompare(b.s); });
+}
+
+/* ---------- renderers ---------- */
+function renderStamp(){
+  var t = today();
+  document.getElementById("datestamp").textContent =
+    DOW[t.getDay()].toUpperCase() + " · " + MON[t.getMonth()].toUpperCase() + " " + t.getDate() + " · " +
+    (classesOn(t).length ? classesOn(t).length + " fixed blocks" : "no fixed blocks");
+}
+
+function renderCounters(){
+  var t = today(), tISO = iso(t);
+  var slipped = slippedItems().length;
+  var todayCount = eventsOn(tISO).filter(function(e){ return !isDone(e.id); }).length;
+  var weekDue = allTasks().filter(function(x){
+    if(isDone(x.id) || !x.due) return false;
+    var n = dayDiff(parseISO(x.due), t);
+    return n >= 0 && n <= 7;
+  }).length;
+  var open = allTasks().filter(function(x){ return !isDone(x.id); }).length;
+
+  var defs = [
+    {n:slipped, l:"Slipped", c:slipped ? "counter hot" : "counter"},
+    {n:todayCount, l:"Today", c:"counter"},
+    {n:weekDue, l:"Due ≤7d", c:weekDue ? "counter warm" : "counter"},
+    {n:open, l:"Open", c:"counter"}
+  ];
+  var wrap = document.getElementById("counters");
+  wrap.textContent = "";
+  defs.forEach(function(d){
+    var c = el("div", d.c);
+    c.appendChild(el("b", null, String(d.n)));
+    c.appendChild(el("span", null, d.l));
+    wrap.appendChild(c);
+  });
+}
+
+function slippedItems(){
+  var t = today(), out = [];
+  EVENTS.forEach(function(e){
+    if(isDone(e.id)) return;
+    if(dayDiff(parseISO(e.dt), t) < 0) out.push({id:e.id, t:e.t, note:e.note, due:e.dt, group:e.g});
+  });
+  allTasks().forEach(function(x){
+    if(isDone(x.id) || !x.due) return;
+    if(dayDiff(parseISO(x.due), t) < 0) out.push(x);
+  });
+  return out;
+}
+
+function renderSlipped(){
+  var wrap = document.getElementById("slipped-wrap");
+  wrap.textContent = "";
+  var items = slippedItems();
+  if(!items.length) return;
+  var box = el("div", "slip");
+  box.appendChild(el("h3", null, "Slipped — " + items.length + " item" + (items.length>1?"s":"")));
+  box.appendChild(el("p", null, "Dates that passed without a tick. Check them off if they happened, or they stay here."));
+  var rows = el("div", "rows");
+  items.forEach(function(i){ rows.appendChild(taskRow(i, {group:i.group})); });
+  box.appendChild(rows);
+  wrap.appendChild(box);
+}
+
+function mins(t){ var p = t.split(":"); return (+p[0]) * 60 + (+p[1]); }
+
+function layoutColumns(items){
+  // group transitively-overlapping items, then assign each a column inside its group
+  var groups = [], cur = [], curEnd = -1;
+  items.forEach(function(it){
+    if(cur.length && it.s0 >= curEnd){ groups.push(cur); cur = []; curEnd = -1; }
+    cur.push(it);
+    curEnd = Math.max(curEnd, it.e0);
+  });
+  if(cur.length) groups.push(cur);
+  groups.forEach(function(g){
+    var colEnds = [];
+    g.forEach(function(it){
+      var c = 0;
+      while(c < colEnds.length && colEnds[c] > it.s0) c++;
+      colEnds[c] = it.e0;
+      it.col = c;
+    });
+    g.forEach(function(it){ it.cols = colEnds.length; });
+  });
+}
+
+function renderAgenda(){
+  var t = today(), tISO = iso(t);
+  var box = document.getElementById("agenda");
+  box.textContent = "";
+
+  var hd = el("div", "agenda-hd");
+  var left = el("div");
+  left.appendChild(el("div", "d", DOW[t.getDay()] + ", " + MON[t.getMonth()] + " " + t.getDate()));
+  hd.appendChild(left);
+  hd.appendChild(el("div", "w", "All times ET"));
+  box.appendChild(hd);
+
+  var timed = [], untimed = [];
+  classesOn(t).forEach(function(c){
+    timed.push({s0:mins(c.s), e0:mins(c.e), n:c.n, k:c.k, type:"cls"});
+  });
+  eventsOn(tISO).forEach(function(e){
+    if(!showDone && isDone(e.id)) return;
+    if(!e.s){ untimed.push(e); return; }
+    var s0 = mins(e.s), e0 = e.e ? mins(e.e) : s0 + 60;
+    if(e0 <= s0) e0 = s0 + 60;
+    timed.push({s0:s0, e0:e0, n:e.t, k:e.g, type:"evt", id:e.id});
+  });
+  timed.sort(function(a,b){ return a.s0 - b.s0 || b.e0 - a.e0; });
+
+  if(untimed.length){
+    var strip = el("div", "allday");
+    untimed.forEach(function(e){
+      strip.appendChild(el("span", "adchip" + (isDone(e.id) ? " is-done" : ""), e.t));
+    });
+    box.appendChild(strip);
+  }
+
+  if(!timed.length){
+    box.appendChild(el("div", "calempty", untimed.length
+      ? "Nothing on the clock today."
+      : "Nothing scheduled. Best day this week to knock out coursework."));
+  } else {
+    var PX = 54;
+    var first = timed[0].s0, last = timed[timed.length - 1].e0;
+    timed.forEach(function(i){ last = Math.max(last, i.e0); });
+    var h0 = Math.max(0, Math.floor(first / 60) - 1);
+    var h1 = Math.min(24, Math.ceil(last / 60) + 1);
+    if(h1 - h0 < 6) h1 = Math.min(24, h0 + 6);
+
+    var scroll = el("div", "calscroll");
+    var cal = el("div", "cal");
+    cal.style.height = ((h1 - h0) * PX + 14) + "px";
+
+    for(var h = h0; h <= h1; h++){
+      var y = (h - h0) * PX;
+      var line = el("div", "hr" + (h % 3 === 0 ? " solid" : ""));
+      line.style.top = y + "px";
+      cal.appendChild(line);
+      var lab = el("div", "hrlab", fmtTime((h < 10 ? "0" : "") + h + ":00"));
+      lab.style.top = y + "px";
+      cal.appendChild(lab);
+    }
+
+    layoutColumns(timed);
+    timed.forEach(function(i){
+      var top = (i.s0 - h0 * 60) / 60 * PX;
+      var hgt = Math.max(20, (i.e0 - i.s0) / 60 * PX - 3);
+      var done = i.id && isDone(i.id);
+      var b = el("div", "ev " + i.type + (hgt < 34 ? " short" : "") + (done ? " is-done" : ""));
+      b.style.top = top + "px";
+      b.style.height = hgt + "px";
+      b.style.left = "calc(60px + " + (i.col / i.cols * 100) + "% - " + (i.col / i.cols * 74) + "px)";
+      b.style.width = "calc(" + (100 / i.cols) + "% - " + (74 / i.cols) + "px - 4px)";
+      b.appendChild(el("span", "en", i.n));
+      b.appendChild(el("span", "et", fmtTime(pad(i.s0)) + "–" + fmtTime(pad(i.e0)) + " · " + i.k));
+      cal.appendChild(b);
+    });
+
+    var now = new Date();
+    var nowMin = now.getHours() * 60 + now.getMinutes();
+    if(nowMin >= h0 * 60 && nowMin <= h1 * 60){
+      var nl = el("div", "nowline");
+      nl.style.top = ((nowMin - h0 * 60) / 60 * PX) + "px";
+      cal.appendChild(nl);
+    }
+
+    scroll.appendChild(cal);
+    box.appendChild(scroll);
+  }
+
+  if(HOLIDAYS[tISO]) box.appendChild(el("div", "calnote", HOLIDAYS[tISO]));
+  if(CLASHES[tISO]) box.appendChild(el("div", "calnote", "Collision: " + CLASHES[tISO]));
+}
+
+function pad(m){
+  var h = Math.floor(m / 60), mm = m % 60;
+  return (h < 10 ? "0" : "") + h + ":" + (mm < 10 ? "0" : "") + mm;
+}
+
+function renderFocus(){
+  var wrap = document.getElementById("focus");
+  wrap.textContent = "";
+  if(!FOCUS || !FOCUS.items.length) return;
+  var n = dayDiff(parseISO(FOCUS.dt), today());
+  if(n < -1 || n > 1) return;   // keep a late-night list visible past midnight
+  var d = parseISO(FOCUS.dt);
+  var vis = visible(FOCUS.items);
+  if(!vis.length) return;
+  var box = el("div", "focus");
+  box.appendChild(el("h3", null, n === 1 ? "Tomorrow's focus" : n === -1 ? "Still open from last night" : (FOCUS.label ? FOCUS.label + "'s focus" : "Today's focus")));
+  box.appendChild(el("div", "fsub", DOW[d.getDay()] + " " + MON[d.getMonth()] + " " + d.getDate()));
+  var rows = el("div", "rows");
+  vis.forEach(function(i){ rows.appendChild(taskRow(i, {})); });
+  box.appendChild(rows);
+  wrap.appendChild(box);
+}
+
+function renderDueNext(){
+  var t = today();
+  var list = allTasks().filter(function(x){
+    if(isDone(x.id) || !x.due) return false;
+    return dayDiff(parseISO(x.due), t) >= 0;
+  }).sort(function(a,b){ return a.due.localeCompare(b.due); }).slice(0, 8);
+
+  var wrap = document.getElementById("duenext");
+  wrap.textContent = "";
+  document.getElementById("duecount").textContent = list.length ? String(list.length) : "";
+  if(!list.length){ wrap.appendChild(el("div", "empty", "Nothing dated ahead. Everything left is untimed.")); return; }
+  list.forEach(function(i){ wrap.appendChild(taskRow(i, {group:i.group})); });
+}
+
+var weekRange = "week";
+
+function renderWeek(){
+  var t = today();
+  var wrap = document.getElementById("week");
+  wrap.textContent = "";
+  var span = weekRange === "month" ? 30 : 7;
+  wrap.className = "week" + (weekRange === "month" ? " month" : "");
+  var endD = addDays(t, span - 1);
+  document.getElementById("weekhd").textContent =
+    weekRange === "month" ? "Next 30 days · through " + MON[endD.getMonth()] + " " + endD.getDate() : "Next seven days";
+  Array.prototype.forEach.call(document.querySelectorAll("#rangetabs button"), function(b){
+    b.setAttribute("aria-pressed", b.dataset.range === weekRange ? "true" : "false");
+  });
+  for(var k = 0; k < span; k++){
+    var d = addDays(t, k), dISO = iso(d);
+    var wknd = (d.getDay() === 0 || d.getDay() === 6);
+    var card = el("div", "day" + (k === 0 ? " is-today" : "") + (wknd ? " wknd" : ""));
+    var hd = el("div", "hd");
+    hd.appendChild(el("div", "dow", DOW[d.getDay()]));
+    hd.appendChild(el("div", "dnum", String(d.getDate())));
+    card.appendChild(hd);
+
+    classesOn(d).forEach(function(c){
+      var m = el("div", "mini class-mini");
+      m.appendChild(el("span", "mt", fmtTime(c.s)));
+      m.appendChild(el("span", "mx", c.n));
+      card.appendChild(m);
+    });
+    eventsOn(dISO).filter(function(e){ return showDone || !isDone(e.id); }).forEach(function(e){
+      var m = el("div", "mini evt-mini" + (isDone(e.id) ? " done-mini" : ""));
+      m.appendChild(el("span", "mt", e.s ? fmtTime(e.s) : "●"));
+      m.appendChild(el("span", "mx", e.t));
+      card.appendChild(m);
+    });
+    if(!classesOn(d).length && !eventsOn(dISO).filter(function(e){ return showDone || !isDone(e.id); }).length){
+      card.appendChild(el("div", "note", HOLIDAYS[dISO] ? HOLIDAYS[dISO] : (wknd ? "Open" : "No fixed blocks")));
+    }
+    if(HOLIDAYS[dISO]) card.appendChild(el("div", "clash-line", HOLIDAYS[dISO]));
+    if(CLASHES[dISO]) card.appendChild(el("div", "clash-line", CLASHES[dISO]));
+    wrap.appendChild(card);
+  }
+}
+
+function renderCourses(){
+  var wrap = document.getElementById("courses");
+  wrap.textContent = "";
+  COURSES.forEach(function(c){
+    if(!visible(c.items).length) return;
+    var box = el("div", "course");
+    var hd = el("div", "ch");
+    hd.appendChild(el("div", "code", c.code));
+    hd.appendChild(el("div", "cr", c.cr + " cr"));
+    box.appendChild(hd);
+    var vis = visible(c.items);
+    if(!vis.length) return;
+    var bd = el("div", "cbody");
+    vis.forEach(function(i){ bd.appendChild(taskRow(i, {})); });
+    box.appendChild(bd);
+    wrap.appendChild(box);
+  });
+}
+
+function renderGrouped(targetId, groups, withAdder){
+  var wrap = document.getElementById(targetId);
+  wrap.textContent = "";
+  groups.forEach(function(g){
+    var vis = visible(g.items);
+    if(!vis.length) return;
+    wrap.appendChild(el("div", "grouphd", g.g));
+    vis.forEach(function(i){ wrap.appendChild(taskRow(i, {})); });
+  });
+  if(withAdder){
+    var vc = visible(state.custom);
+    if(vc.length){
+      wrap.appendChild(el("div", "grouphd", "Added"));
+      vc.forEach(function(i){ wrap.appendChild(taskRow(i, {})); });
+    }
+    var f = el("form", "adder");
+    var inp = el("input");
+    inp.type = "text"; inp.placeholder = "Add an item"; inp.setAttribute("aria-label", "Add an item");
+    var btn = el("button", null, "Add"); btn.type = "submit";
+    f.appendChild(inp); f.appendChild(btn);
+    f.addEventListener("submit", function(ev){
+      ev.preventDefault();
+      var v = inp.value.trim();
+      if(!v) return;
+      state.custom.push({id:"x" + Date.now().toString(36), t:v});
+      inp.value = "";
+      save(); render();
+    });
+    wrap.appendChild(f);
+  }
+}
+
+function doneCount(){
+  var ids = {}, n = 0;
+  allTasks().forEach(function(x){ ids[x.id] = 1; });
+  EVENTS.forEach(function(e){ ids[e.id] = 1; });
+  if(FOCUS) FOCUS.items.forEach(function(i){ ids[i.id] = 1; });
+  Object.keys(ids).forEach(function(k){ if(isDone(k)) n++; });
+  return n;
+}
+
+function render(){
+  renderStamp();
+  renderCounters();
+  renderSlipped();
+  renderAgenda();
+  renderFocus();
+  renderDueNext();
+  renderWeek();
+  renderCourses();
+  renderGrouped("side", SIDE, true);
+  renderGrouped("clubs", CLUBS, false);
+  var dc = doneCount(), tb = document.getElementById("donetoggle");
+  tb.hidden = dc === 0;
+  tb.textContent = (showDone ? "Hide" : "Show") + " completed (" + dc + ")";
+  document.getElementById("sidecount").textContent =
+    String(SIDE.reduce(function(a,g){ return a + g.items.filter(function(i){ return !isDone(i.id); }).length; }, 0) +
+           state.custom.filter(function(i){ return !isDone(i.id); }).length);
+}
+
+document.getElementById("toastundo").addEventListener("click", function(){
+  if(lastTicked){ toggle(lastTicked, false); lastTicked = null; }
+});
+
+document.getElementById("donetoggle").addEventListener("click", function(){
+  showDone = !showDone;
+  render();
+});
+
+document.getElementById("rangetabs").addEventListener("click", function(ev){
+  var b = ev.target.closest("button");
+  if(!b) return;
+  weekRange = b.dataset.range;
+  renderWeek();
+});
+
+loadLocal();
+render();
+
+/* ---------- persistence ---------- */
+(function connect(){
+  var LOCAL_MSG = "Ticks saved on this device";
+  if(!window.claude || typeof window.claude.use !== "function"){ setStatus(LOCAL_MSG); return; }
+  var firstSnap = true;
+  window.claude.use("db").then(function(db){
+    if(!db){ setStatus(LOCAL_MSG); return; }
+    dbRef = db.doc("tracker/state");
+    dbRef.onSnapshot(function(snap){
+      var d = snap.exists ? snap.data() : null;
+      var remoteChecks = (d && d.checks && typeof d.checks === "object") ? d.checks : {};
+      var remoteCustom = (d && Array.isArray(d.custom)) ? d.custom.filter(function(i){ return i && i.id && i.t; }) : [];
+      if(firstSnap){
+        // first sync: fold in anything ticked on this device while offline, then push the union up
+        firstSnap = false;
+        var merged = Object.assign({}, remoteChecks, state.checks);
+        var ids = {}; remoteCustom.forEach(function(i){ ids[i.id] = 1; });
+        var custom = remoteCustom.concat(state.custom.filter(function(i){ return !ids[i.id]; }));
+        var changed = Object.keys(merged).length !== Object.keys(remoteChecks).length || custom.length !== remoteCustom.length;
+        state.checks = merged; state.custom = custom;
+        saveLocal(); render();
+        if(changed) save();
+      } else {
+        state.checks = remoteChecks; state.custom = remoteCustom;
+        saveLocal(); render();
+      }
+      setStatus("Synced · ticks persist everywhere");
+    }, function(e){
+      setStatus(LOCAL_MSG + " (sync " + e.code + ")");
+    });
+  }).catch(function(){ setStatus(LOCAL_MSG); });
+})();
+
+})();
+</script>

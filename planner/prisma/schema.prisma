@@ -1,0 +1,104 @@
+// Dates are Eastern-local calendar dates stored as "YYYY-MM-DD" strings and
+// times as 24h "HH:MM" strings. Nothing here depends on the server's timezone,
+// and the schema moves to Postgres by changing only the provider.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Section {
+  id       String  @id
+  area     String
+  name     String
+  credits  Int?
+  // comma-separated extra names for quick-add matching, e.g. "phys,physics"
+  aliases  String  @default("")
+  order    Int     @default(0)
+  archived Boolean @default(false)
+  tasks    Task[]
+}
+
+model Task {
+  id          String    @id
+  sectionId   String
+  section     Section   @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  title       String
+  note        String?
+  due         String?
+  dueTime     String?
+  priority    Int?
+  order       Int       @default(0)
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([sectionId, order])
+}
+
+model RecurringBlock {
+  id              String  @id
+  weekday         Int
+  start           String
+  end             String
+  name            String
+  kind            String
+  survivesDaysOff Boolean @default(false)
+  activeFrom      String?
+  activeUntil     String?
+}
+
+model Event {
+  id          String    @id
+  date        String
+  start       String?
+  end         String?
+  title       String
+  category    String    @default("")
+  note        String?
+  completedAt DateTime?
+
+  @@index([date])
+}
+
+model DayOff {
+  date  String @id
+  label String @default("Day off")
+}
+
+model BlockSkip {
+  id        String  @id
+  date      String
+  blockId   String?
+  blockName String?
+
+  @@index([date])
+}
+
+model FocusList {
+  date  String      @id
+  label String?
+  items FocusItem[]
+}
+
+model FocusItem {
+  id           String    @id
+  listDate     String
+  list         FocusList @relation(fields: [listDate], references: [date], onDelete: Cascade)
+  title        String
+  note         String?
+  linkedTaskId String?
+  order        Int       @default(0)
+  completedAt  DateTime?
+}
+
+model ClashNote {
+  id   String @id
+  date String
+  text String
+
+  @@index([date])
+}

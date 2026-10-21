@@ -1,0 +1,683 @@
+{
+  "_meta": {
+    "exportedAt": "2026-10-21T18:20:45.741Z",
+    "timezone": "America/New_York",
+    "source": "Fall 26 Critical Path (claude.ai artifact v217)",
+    "notes": "All times are Eastern, 24h HH:MM. Dates are YYYY-MM-DD local Eastern dates."
+  },
+  "recurringBlocks": [
+    {
+      "weekday": 1,
+      "weekdayName": "Mon",
+      "start": "09:30",
+      "end": "10:45",
+      "name": "PHYS 2211",
+      "kind": "Lecture",
+      "survivesDaysOff": false
+    },
+    {
+      "weekday": 1,
+      "weekdayName": "Mon",
+      "start": "11:00",
+      "end": "12:15",
+      "name": "ISYE 3030",
+      "kind": "Lecture",
+      "survivesDaysOff": false
+    },
+    {
+      "weekday": 1,
+      "weekdayName": "Mon",
+      "start": "13:00",
+      "end": "13:50",
+      "name": "MATH 2603",
+      "kind": "Studio",
+      "survivesDaysOff": false
+    },
+    {
+      "weekday": 1,
+      "weekdayName": "Mon",
+      "start": "14:00",
+      "end": "15:15",
+      "name": "Startup Lab",
+      "kind": "CS 2701",
+      "survivesDaysOff": false
+    },
+    {
+      "weekday": 1,
+      "weekdayName": "Mon",
+      "start": "19:00",
+      "end": "20:30",
+      "name": "UCC",
+      "kind": "Weekly",
+      "survivesDaysOff": true
+    },
+    {
+      "weekday": 2,
+      "weekdayName": "Tue",
+      "start": "12:30",
+      "end": "15:15",
+      "name": "PHYS 2211 Lab",
+      "kind": "Lab",
+      "survivesDaysOff": false
+    },
+    {
+      "weekday": 2,
+      "weekdayName": "Tue",
+      "start": "15:30",
+      "end": "16:45",
+      "name": "MATH 2603",
+      "kind": "Lecture",
+      "survivesDaysOff": false
+    },
+    {
+      "weekday": 2,
+      "weekdayName": "Tue",
+      "start": "18:30",
+      "end": "19:30",
+      "name": "Investments Committee",
+      "kind": "Weekly",
+      "survivesDaysOff": true
+    },
+    {
+      "weekday": 3,
+      "weekdayName": "Wed",
+      "start": "09:30",
+      "end": "10:45",
+      "name": "PHYS 2211",
+      "kind": "Lecture",
+      "survivesDaysOff": false
+    },
+    {
+      "weekday": 3,
+      "weekdayName": "Wed",
+      "start": "11:00",
+      "end": "12:15",
+      "name": "ISYE 3030",
+      "kind": "Lecture",
+      "survivesDaysOff": false
+    },
+    {
+      "weekday": 3,
+      "weekdayName": "Wed",
+      "start": "13:00",
+      "end": "13:50",
+      "name": "MATH 2603",
+      "kind": "Studio",
+      "survivesDaysOff": false
+    },
+    {
+      "weekday": 3,
+      "weekdayName": "Wed",
+      "start": "14:00",
+      "end": "15:15",
+      "name": "Startup Lab",
+      "kind": "CS 2701",
+      "survivesDaysOff": false
+    },
+    {
+      "weekday": 3,
+      "weekdayName": "Wed",
+      "start": "15:30",
+      "end": "16:15",
+      "name": "VIP",
+      "kind": "Research",
+      "survivesDaysOff": false
+    },
+    {
+      "weekday": 4,
+      "weekdayName": "Thu",
+      "start": "15:30",
+      "end": "16:45",
+      "name": "MATH 2603",
+      "kind": "Lecture",
+      "survivesDaysOff": false
+    },
+    {
+      "weekday": 5,
+      "weekdayName": "Fri",
+      "start": "12:00",
+      "end": "13:00",
+      "name": "Home Depot weekly",
+      "kind": "Product@GT",
+      "survivesDaysOff": false
+    }
+  ],
+  "events": [
+    {
+      "id": "e1018a",
+      "date": "2026-10-18",
+      "start": "11:00",
+      "end": "12:00",
+      "title": "ISYE 3030 project call",
+      "category": "ISYE 3030",
+      "note": "End time assumed · abstract due 10/23"
+    },
+    {
+      "id": "e1020b",
+      "date": "2026-10-20",
+      "start": "18:30",
+      "end": "19:30",
+      "title": "Home Depot meeting",
+      "category": "Product@GT",
+      "note": "End time assumed"
+    },
+    {
+      "id": "x1026",
+      "date": "2026-10-26",
+      "start": "18:30",
+      "end": "19:45",
+      "title": "PHYS 2211 Test 2",
+      "category": "Exam"
+    },
+    {
+      "id": "x1110",
+      "date": "2026-11-10",
+      "start": "15:30",
+      "end": "16:45",
+      "title": "MATH 2603 Midterm 2",
+      "category": "Exam",
+      "note": "Regular lecture period"
+    },
+    {
+      "id": "x1123",
+      "date": "2026-11-23",
+      "start": "18:30",
+      "end": "19:45",
+      "title": "PHYS 2211 Test 3",
+      "category": "Exam",
+      "note": "Monday of Thanksgiving week"
+    },
+    {
+      "id": "x1202",
+      "date": "2026-12-02",
+      "start": "11:00",
+      "end": "12:15",
+      "title": "ISYE 3030 Exam II",
+      "category": "Exam",
+      "note": "In class · two double-sided equation sheets"
+    },
+    {
+      "id": "x1211",
+      "date": "2026-12-11",
+      "start": "18:00",
+      "end": "20:50",
+      "title": "PHYS 2211 Final",
+      "category": "Exam",
+      "note": "Common exam, location TBA"
+    },
+    {
+      "id": "x1215",
+      "date": "2026-12-15",
+      "start": "14:40",
+      "end": "17:30",
+      "title": "MATH 2603 Final",
+      "category": "Exam",
+      "note": "Cumulative, location TBA"
+    }
+  ],
+  "sections": [
+    {
+      "id": "phys-2211",
+      "area": "Coursework",
+      "name": "PHYS 2211",
+      "credits": 4
+    },
+    {
+      "id": "math-2603-discrete",
+      "area": "Coursework",
+      "name": "MATH 2603 · Discrete",
+      "credits": 4
+    },
+    {
+      "id": "isye-3030",
+      "area": "Coursework",
+      "name": "ISYE 3030",
+      "credits": 3
+    },
+    {
+      "id": "startup-lab-cs-2701",
+      "area": "Coursework",
+      "name": "Startup Lab · CS 2701",
+      "credits": 3
+    },
+    {
+      "id": "applications",
+      "area": "Recruiting & side",
+      "name": "Applications"
+    },
+    {
+      "id": "interview-prep",
+      "area": "Recruiting & side",
+      "name": "Interview prep"
+    },
+    {
+      "id": "follow-ups",
+      "area": "Recruiting & side",
+      "name": "Follow-ups"
+    },
+    {
+      "id": "housekeeping",
+      "area": "Recruiting & side",
+      "name": "Housekeeping"
+    },
+    {
+      "id": "ucc",
+      "area": "Clubs & open questions",
+      "name": "UCC"
+    },
+    {
+      "id": "investments-committee",
+      "area": "Clubs & open questions",
+      "name": "Investments Committee"
+    },
+    {
+      "id": "product-gt",
+      "area": "Clubs & open questions",
+      "name": "Product@GT"
+    },
+    {
+      "id": "check-on",
+      "area": "Clubs & open questions",
+      "name": "Check on"
+    }
+  ],
+  "tasks": [
+    {
+      "id": "p22",
+      "sectionId": "phys-2211",
+      "title": "Catch up on the 10/21 physics lecture",
+      "order": 0
+    },
+    {
+      "id": "p23",
+      "sectionId": "phys-2211",
+      "title": "Study for PHYS Test 2",
+      "due": "2026-10-26",
+      "note": "Mon 6:30pm",
+      "order": 1
+    },
+    {
+      "id": "d19",
+      "sectionId": "math-2603-discrete",
+      "title": "Finish the 10/15 worksheets",
+      "order": 0
+    },
+    {
+      "id": "d20",
+      "sectionId": "math-2603-discrete",
+      "title": "Catch up on the 10/20 math lecture",
+      "order": 1
+    },
+    {
+      "id": "d21",
+      "sectionId": "math-2603-discrete",
+      "title": "Review the last math quiz answers",
+      "order": 2
+    },
+    {
+      "id": "i3",
+      "sectionId": "isye-3030",
+      "title": "Project abstract",
+      "due": "2026-10-23",
+      "order": 0
+    },
+    {
+      "id": "i6",
+      "sectionId": "isye-3030",
+      "title": "3030 homework",
+      "due": "2026-10-23",
+      "order": 1
+    },
+    {
+      "id": "i4",
+      "sectionId": "isye-3030",
+      "title": "Project report",
+      "due": "2026-12-11",
+      "note": "Replaces the final exam",
+      "order": 2
+    },
+    {
+      "id": "s2",
+      "sectionId": "startup-lab-cs-2701",
+      "title": "Review the content from the missed class",
+      "note": "You said 10/13, but Startup Lab meets Mon/Wed, so this is likely the 10/12 class",
+      "order": 0
+    },
+    {
+      "id": "a11",
+      "sectionId": "applications",
+      "title": "Keep an eye on recruiter emails",
+      "order": 0
+    },
+    {
+      "id": "a2",
+      "sectionId": "applications",
+      "title": "Citadel SPC, P72 SPC",
+      "order": 1
+    },
+    {
+      "id": "b6",
+      "sectionId": "interview-prep",
+      "title": "Get introduced to Sushanth's MBB buddy",
+      "order": 0
+    },
+    {
+      "id": "b19",
+      "sectionId": "interview-prep",
+      "title": "Review Akash's casing notes",
+      "order": 1
+    },
+    {
+      "id": "c1",
+      "sectionId": "follow-ups",
+      "title": "Send an email to Clayton",
+      "order": 0
+    },
+    {
+      "id": "c2",
+      "sectionId": "follow-ups",
+      "title": "Donna",
+      "order": 1
+    },
+    {
+      "id": "c3",
+      "sectionId": "follow-ups",
+      "title": "Schneider",
+      "note": "After the Shonodeep UCC run-through",
+      "order": 2
+    },
+    {
+      "id": "c15",
+      "sectionId": "follow-ups",
+      "title": "Reply to Helen with availability for the week of 10/29",
+      "note": "Schneider · Shonodeep call pushed to late October",
+      "order": 3
+    },
+    {
+      "id": "c4",
+      "sectionId": "follow-ups",
+      "title": "Simmon",
+      "order": 4
+    },
+    {
+      "id": "c7",
+      "sectionId": "follow-ups",
+      "title": "Reach out to Subash's dad",
+      "order": 5
+    },
+    {
+      "id": "h1",
+      "sectionId": "housekeeping",
+      "title": "Add ERB to LinkedIn",
+      "note": "Resume done",
+      "order": 0
+    },
+    {
+      "id": "h2",
+      "sectionId": "housekeeping",
+      "title": "Betterment investments",
+      "order": 1
+    },
+    {
+      "id": "h3",
+      "sectionId": "housekeeping",
+      "title": "Read Executive Presence",
+      "order": 2
+    },
+    {
+      "id": "h4",
+      "sectionId": "housekeeping",
+      "title": "Workout",
+      "order": 3
+    },
+    {
+      "id": "h6",
+      "sectionId": "housekeeping",
+      "title": "Set up Muse",
+      "order": 4
+    },
+    {
+      "id": "u1",
+      "sectionId": "ucc",
+      "title": "Project sourcing",
+      "order": 0
+    },
+    {
+      "id": "u2",
+      "sectionId": "ucc",
+      "title": "SBC folk — POC with Hawks",
+      "order": 1
+    },
+    {
+      "id": "u3",
+      "sectionId": "ucc",
+      "title": "Thrive Americans",
+      "order": 2
+    },
+    {
+      "id": "u5",
+      "sectionId": "ucc",
+      "title": "Reach out to the pro bono clients to get engagements moving",
+      "order": 3
+    },
+    {
+      "id": "u4",
+      "sectionId": "ucc",
+      "title": "Real estate networking event collab",
+      "note": "Partner org and date still TBD",
+      "order": 4
+    },
+    {
+      "id": "u8",
+      "sectionId": "ucc",
+      "title": "Assign the pro bono projects to folks",
+      "order": 5
+    },
+    {
+      "id": "u9",
+      "sectionId": "ucc",
+      "title": "Keep an eye on the Ford group",
+      "note": "Clayton, Ryan, Kate",
+      "order": 6
+    },
+    {
+      "id": "k7",
+      "sectionId": "investments-committee",
+      "title": "Review the IC material from 9/8",
+      "due": "2026-09-15",
+      "note": "Before the next IC meeting",
+      "order": 0
+    },
+    {
+      "id": "k1",
+      "sectionId": "investments-committee",
+      "title": "IC mentorship — check Canvas",
+      "order": 1
+    },
+    {
+      "id": "pg1",
+      "sectionId": "product-gt",
+      "title": "Home Depot project — confirm schedule and deliverables",
+      "note": "Product Fellow",
+      "order": 0
+    },
+    {
+      "id": "pg3",
+      "sectionId": "product-gt",
+      "title": "Look for Home Depot response from Girija",
+      "order": 1
+    },
+    {
+      "id": "pg4",
+      "sectionId": "product-gt",
+      "title": "Make slides for thought flow to prototype drawups",
+      "order": 2
+    },
+    {
+      "id": "k2",
+      "sectionId": "check-on",
+      "title": "IISE — look for more events",
+      "order": 0
+    },
+    {
+      "id": "k5",
+      "sectionId": "check-on",
+      "title": "Trading Club — status?",
+      "order": 1
+    },
+    {
+      "id": "k6",
+      "sectionId": "check-on",
+      "title": "GTVC — status?",
+      "order": 2
+    }
+  ],
+  "focus": {
+    "date": "2026-10-21",
+    "items": [
+      {
+        "id": "n39",
+        "title": "Finish the Home Depot slides",
+        "order": 0
+      },
+      {
+        "id": "n40",
+        "title": "Go to classes",
+        "note": "PHYS 9:30 · ISYE 11 · MATH 1 · Startup Lab 2 · VIP 3:30",
+        "order": 1
+      },
+      {
+        "id": "n41",
+        "title": "Chest day at the gym",
+        "order": 2
+      },
+      {
+        "id": "n42",
+        "title": "Do math",
+        "note": "10/15 worksheets, 10/20 lecture, quiz answers",
+        "order": 3
+      },
+      {
+        "id": "n43",
+        "title": "Study a little physics",
+        "note": "Test 2 Mon",
+        "order": 4
+      },
+      {
+        "id": "n44",
+        "title": "3030 project abstract work",
+        "note": "Due Fri",
+        "order": 5
+      },
+      {
+        "id": "n45",
+        "title": "Prep for the VIP presentation",
+        "order": 6
+      }
+    ]
+  },
+  "daysOff": [
+    {
+      "date": "2026-10-05",
+      "label": "No school — classes cancelled"
+    },
+    {
+      "date": "2026-10-06",
+      "label": "No school — classes cancelled"
+    }
+  ],
+  "blockSkips": [
+    {
+      "date": "2026-10-09",
+      "blockNames": [
+        "Home Depot weekly"
+      ]
+    }
+  ],
+  "clashNotes": [
+    {
+      "date": "2026-09-15",
+      "text": "Trading room 6:30–8 runs straight over Investments Committee."
+    },
+    {
+      "date": "2026-09-21",
+      "text": "The Luke case at 2:30 lands inside Startup Lab (2:00–3:15), and the workshop at 5 runs into UCC at 7."
+    },
+    {
+      "date": "2026-09-22",
+      "text": "Workshop ends 6:30 as Investments Committee starts, and the Nico case at 7 runs over IC's back half."
+    },
+    {
+      "date": "2026-09-23",
+      "text": "Four things stack up: Quiz 2 at 1, VIP test at 3:30, the last Bloomberg workshop at 5, then the Hazel case at 7 and Swayam at 8:30."
+    },
+    {
+      "date": "2026-09-24",
+      "text": "Bain rounds 1–2, then the Accenture screen at 2:45, then MATH at 3:30. Fifteen minutes between the screen and class."
+    },
+    {
+      "date": "2026-09-28",
+      "text": "ISYE HW 2 due, and PHYS Test 1 runs 6:30–7:45 straight through the start of UCC at 7."
+    },
+    {
+      "date": "2026-09-29",
+      "text": "MATH midterm at 3:30, then Intro to Projects 6:30–8 sits right on top of Investments Committee."
+    },
+    {
+      "date": "2026-09-30",
+      "text": "Bain coffee chat 1:30–2:30 at Refuge Coffee runs into Startup Lab (2–3:15), and VIP is at 3:30. Nico still untimed."
+    },
+    {
+      "date": "2026-10-01",
+      "text": "Bain round 2 at 10:15, then MATH at 3:30. The morning is otherwise clear."
+    },
+    {
+      "date": "2026-10-02",
+      "text": "Startup Report 1 due, plus Home Depot weekly 12–1, Clayton 2:30 and Oligo Space 5:30. Get the report in before noon."
+    },
+    {
+      "date": "2026-10-05",
+      "text": "EYP interview at 12 (11am CT), Kelsey 1:1 at 1, UCC weekly at 7. Only 15 minutes between the two EYP calls."
+    },
+    {
+      "date": "2026-10-09",
+      "text": "PHYS HW 7 due. Capital One offer call at 11, Home Depot 2–3, Ford kickoff 4:30–5:30, Phong at 6."
+    },
+    {
+      "date": "2026-10-12",
+      "text": "ISYE Exam I 11–12:15, then the Adele coffee chat at 1 lands on MATH studio (1–1:50). Startup Lab 2–3:15, Farhan at 5, UCC at 7."
+    },
+    {
+      "date": "2026-10-13",
+      "text": "PHYS lab 12:30–3:15, Jesse 1:1 at 3 overlaps the end of lab and the start of MATH (3:30), Accenture Round 1 5–6, IC 6:30. Morning is free for case prep."
+    },
+    {
+      "date": "2026-10-14",
+      "text": "Math quiz in studio at 1, Startup Lab 2, VIP 3:30, EYP prep session 6–7. Superday prep and Home Depot research both due tonight."
+    },
+    {
+      "date": "2026-10-15",
+      "text": "EYP superday from 9am, then the EY Technology Consulting session at noon. If the superday runs past noon, that session is the one to drop. MATH at 3:30."
+    },
+    {
+      "date": "2026-10-16",
+      "text": "McKinsey office visit 10–12 on Ponce, the morning after the EYP superday."
+    },
+    {
+      "date": "2026-10-20",
+      "text": "Home Depot at 6:30 lands right on Investments Committee (6:30–7:30)."
+    },
+    {
+      "date": "2026-10-26",
+      "text": "PHYS Test 2 runs 6:30–7:45, straight through the start of UCC at 7."
+    },
+    {
+      "date": "2026-11-23",
+      "text": "PHYS Test 3 runs 6:30–7:45, straight through the start of UCC at 7."
+    },
+    {
+      "date": "2026-12-11",
+      "text": "PHYS final 6–8:50 the same day the ISYE 3030 project report is due."
+    }
+  ]
+}
